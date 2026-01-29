@@ -6,7 +6,7 @@ metadata:
     helios.io/managed-by: operator
   name: test-app-182-backend
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: test-app-182-backend
@@ -16,21 +16,20 @@ spec:
         app: test-app-182-backend
     spec:
       containers:
-      - env:
-        - name: NODE_ENV
-          value: production
-        image: phamhoangkha1403/test-app-182-service:latest
-        name: test-app-182-backend
-        ports:
-        - containerPort: 8080
-        resources:
-          limits:
-            cpu: 500m
-            memory: 512Mi
-          requests:
-            cpu: 100m
-            memory: 128Mi
-
+        - env:
+            - name: NODE_ENV
+              value: production
+          image: phamhoangkha1403/test-app-182-service:@sha256:cf666b33b4f9a08f4a1af94b94b42396f88550cf35af9b253ca28e5771b76736
+          name: test-app-182-backend
+          ports:
+            - containerPort: 0
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
 ---
 apiVersion: v1
 kind: Service
@@ -40,8 +39,8 @@ metadata:
   name: test-app-182-backend
 spec:
   ports:
-  - port: 8080
-    targetPort: 8080
+    - port: 8080
+      targetPort: 0
   selector:
     app: test-app-182-backend
   type: ClusterIP
